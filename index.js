@@ -1,47 +1,40 @@
+/***
+ * state
+ * action - increment, decrement, reset
+ * reducer
+ * store
+ */
+
 const { createStore } = require("redux");
 const INCREMENT = "INCREMENT";
 const DECREMENT = "DECREMENT";
-const ADD_USER = "ADD_USER";
+const RESET = "RESET";
 
 // define state
-const initialCounterState = {
+
+const counterInitialState = {
   count: 0,
 };
 
-const usersInitialState = {
-  users: [{ name: "anisur rahman" }],
-};
-
-/**
- * action - type, payload
- * action - what you want to do in the app.based on this action funtion the state is changed.it returns an object
- * instead of wrtitng the type in string we can keep it to a variable to avoid mistakes
- */
-
+// action
 const incrementCounter = () => {
   return {
     type: INCREMENT,
   };
 };
-
 const decrementCounter = () => {
   return {
     type: DECREMENT,
   };
 };
-
-const addUser = () => {
+const resetCounter = () => {
   return {
-    type: ADD_USER,
-    payload: { name: "kingkong" },
+    type: RESET,
   };
 };
 
-/**
- * Reducer - pure function, receives state and action and all of the logics are built here to change the state based on the action type
- */
-
-const counterReducer = (state = initialCounterState, action) => {
+// create reducer
+const counterReducer = (state = counterInitialState, action) => {
   switch (action.type) {
     case INCREMENT:
       return {
@@ -53,24 +46,25 @@ const counterReducer = (state = initialCounterState, action) => {
         ...state,
         count: state.count - 1,
       };
+    case RESET:
+      return {
+        ...state,
+        count: (state.count = 0),
+      };
 
     default:
       return state;
   }
 };
 
-/***
- * store - getState(), dispatch(), subscribe()
- */
-
+// create store
 const store = createStore(counterReducer);
 store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(decrementCounter());
+store.dispatch(incrementCounter())
+store.dispatch(incrementCounter())
+store.dispatch(incrementCounter())
+store.dispatch(decrementCounter())
+store.dispatch(resetCounter())
