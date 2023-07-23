@@ -35,3 +35,25 @@ const addUser = () => {
     payload: { name: "kingkong" },
   };
 };
+
+/**
+ * Reducer - pure function, receives state and action and all of the logics are built here to change the state based on the action type
+ */
+
+const counterReducer = (state = initialCounterState, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case DECREMENT:
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+
+    default:
+      return state;
+  }
+};
