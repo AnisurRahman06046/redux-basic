@@ -1,57 +1,23 @@
 const { createStore } = require("redux");
-const INCREMENT = "INCREMENT";
-const DECREMENT = "DECREMENT";
 const ADD_USER = "ADD_USER";
-
-// define state
-const initialCounterState = {
-  count: 0,
+const initialState = {
+  users: ["anis"],
+  count: 1,
 };
 
-const usersInitialState = {
-  users: [{ name: "anisur rahman" }],
-};
-
-/**
- * action - type, payload
- * action - what you want to do in the app.based on this action funtion the state is changed.it returns an object
- * instead of wrtitng the type in string we can keep it to a variable to avoid mistakes
- */
-
-const incrementCounter = () => {
-  return {
-    type: INCREMENT,
-  };
-};
-
-const decrementCounter = () => {
-  return {
-    type: DECREMENT,
-  };
-};
-
-const addUser = () => {
+const addUser = (user) => {
   return {
     type: ADD_USER,
-    payload: { name: "kingkong" },
+    payload: user,
   };
 };
 
-/**
- * Reducer - pure function, receives state and action and all of the logics are built here to change the state based on the action type
- */
-
-const counterReducer = (state = initialCounterState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT:
+    case ADD_USER:
       return {
-        ...state,
+        users: [...state.users, action.payload],
         count: state.count + 1,
-      };
-    case DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
       };
 
     default:
@@ -59,18 +25,9 @@ const counterReducer = (state = initialCounterState, action) => {
   }
 };
 
-/***
- * store - getState(), dispatch(), subscribe()
- */
-
-const store = createStore(counterReducer);
+const store = createStore(userReducer);
 store.subscribe(() => {
   console.log(store.getState());
 });
-
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(incrementCounter());
-store.dispatch(decrementCounter());
+store.dispatch(addUser("ela"));
+store.dispatch(addUser("anisur rahman"));
